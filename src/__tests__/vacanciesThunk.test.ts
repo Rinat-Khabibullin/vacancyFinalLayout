@@ -11,16 +11,16 @@ const mockVacancyResponse = {
   per_page: 10,
 }
 
+let fetchMock: ReturnType<typeof vi.fn>
+
 beforeEach(() => {
-  vi.stubGlobal(
-    'fetch',
-    vi.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve(mockVacancyResponse),
-      }),
-    ),
+  fetchMock = vi.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(mockVacancyResponse),
+    }),
   )
+  vi.stubGlobal('fetch', fetchMock)
 })
 
 afterEach(() => {
@@ -34,7 +34,7 @@ describe('vacancies thunk', () => {
 
     await store.dispatch(fetchVacancies())
 
-    const url = (fetch as typeof globalThis.fetch).mock.calls[0][0] as string
+    const url = fetchMock.mock.calls[0][0] as string
     expect(url).toContain('skill_set=TypeScript%2CReact%2CRedux')
     expect(url).toContain('search_field=name')
     expect(url).toContain('search_field=company_name')
@@ -47,7 +47,7 @@ describe('vacancies thunk', () => {
 
     await store.dispatch(fetchVacancies())
 
-    const url = (fetch as typeof globalThis.fetch).mock.calls[0][0] as string
+    const url = fetchMock.mock.calls[0][0] as string
     expect(url).toContain('area=1')
   })
 })

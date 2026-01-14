@@ -1,5 +1,5 @@
 import { Group, Pagination, SegmentedControl, Stack, Text } from '@mantine/core'
-import type { AreaOption  } from '../store/filterSlice'
+import type { AreaOption  } from '../store/filtersSlice'
 import type { HhVacancy } from '../types/hh'
 import { VacancyCard } from './VacancyCard'
 

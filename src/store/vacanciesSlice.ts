@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { HhVacancy, HhVacancyResponse } from '../types/hh'
 import type { RootState } from './store'
+import { buildHhUrl } from '../api/hh'
 
 export type VacanciesState = {
   items: HhVacancy[]
@@ -50,7 +51,7 @@ export const fetchVacancies = createAsyncThunk<HhVacancyResponse, void, { state:
       params.set('skill_set', skills.join(','))
     }
 
-    const response = await fetch(`/hh/vacancies?${params.toString()}`)
+    const response = await fetch(buildHhUrl(`/vacancies?${params.toString()}`))
 
     if (!response.ok) {
       throw new Error('Не удалось загрузить вакансии')

@@ -13,6 +13,7 @@ import { useParams } from 'react-router-dom'
 import { AppHeader } from '../components/AppHeader'
 import type { HhVacancyDetail } from '../types/hh'
 import { formatSalary, getWorkFormat } from '../utils/formatters'
+import { buildHhUrl } from '../api/hh'
 
 const sanitizeHtml = (value: string) => {
   if (typeof window === 'undefined') return value
@@ -69,7 +70,7 @@ export function VacancyDetailPage() {
     const loadVacancy = async () => {
       try {
         setLoading(true)
-        const response = await fetch(`/hh/vacancies/${id}`)
+        const response = await fetch(buildHhUrl(`/vacancies/${id}`))
         if (!response.ok) {
           throw new Error('Не удалось загрузить вакансию')
         }

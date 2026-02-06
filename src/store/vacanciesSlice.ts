@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import type { HhVacancyResponse, HhVacancy } from "../types/hh"
-import type { RootState } from "./store"
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import type { HhVacancy, HhVacancyResponse } from '../types/hh'
+import type { RootState } from './store'
 
-export type VacansiesState = {
+export type VacanciesState = {
   items: HhVacancy[]
   pages: number
   found: number
@@ -10,7 +10,7 @@ export type VacansiesState = {
   error: string | null
 }
 
-const initialState: VacansiesState = {
+const initialState: VacanciesState = {
   items: [],
   pages: 1,
   found: 0,
@@ -19,13 +19,13 @@ const initialState: VacansiesState = {
 }
 
 const AREA_MAP: Record<string, string> = {
-  'Москва': '1',
+  Москва: '1',
   'Санкт-Петербург': '2',
 }
 
 export const fetchVacancies = createAsyncThunk<HhVacancyResponse, void, { state: RootState }>(
   'vacancies/fetchVacancies',
-  async (_, thunkApi) => {
+  async (_arg, thunkApi) => {
     const state = thunkApi.getState()
     const { searchText, area, skills, page } = state.filters
 
@@ -33,7 +33,7 @@ export const fetchVacancies = createAsyncThunk<HhVacancyResponse, void, { state:
       industry: '7',
       professional_role: '96',
       per_page: '10',
-      page: String(Math.max(page - 1, 0))
+      page: String(Math.max(page - 1, 0)),
     })
 
     if (searchText.trim()) {
@@ -42,17 +42,18 @@ export const fetchVacancies = createAsyncThunk<HhVacancyResponse, void, { state:
       params.set('text', searchText.trim())
     }
 
-    if(area !== 'Все') {
+    if (area !== 'Все') {
       params.set('area', AREA_MAP[area])
-  }
+    }
+
     if (skills.length > 0) {
       params.set('skill_set', skills.join(','))
     }
-    const response = await fetch(`https://api.hh.ru/vacancies?${params.toString()}`)
 
-    if(!response.ok) {
+    const response = await fetch(`/hh/vacancies?${params.toString()}`)
+
+    if (!response.ok) {
       throw new Error('Не удалось загрузить вакансии')
-
     }
 
     return (await response.json()) as HhVacancyResponse
@@ -60,13 +61,13 @@ export const fetchVacancies = createAsyncThunk<HhVacancyResponse, void, { state:
 )
 
 const vacanciesSlice = createSlice({
-  name: 'vacansies',
+  name: 'vacancies',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchVacancies.pending, (state) => {
-        state.loading = true 
+        state.loading = true
         state.error = null
       })
       .addCase(fetchVacancies.fulfilled, (state, action) => {
@@ -77,9 +78,9 @@ const vacanciesSlice = createSlice({
       })
       .addCase(fetchVacancies.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message || 'Неизвестная ошибка'
+        state.error = action.error.message ?? 'Неизвестная ошибка'
       })
-  }
+  },
 })
 
 export default vacanciesSlice.reducer

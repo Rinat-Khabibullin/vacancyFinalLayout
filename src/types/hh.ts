@@ -3,7 +3,7 @@ export type HhArea = {
   name: string
 }
 
-export type  HhEmployer = {
+export type HhEmployer = {
   name: string
 }
 
@@ -18,8 +18,13 @@ export type HhExperience = {
   name: string
 }
 
-export type HhShedule = {
+export type HhSchedule = {
   name: string
+}
+
+export type HhSnippet = {
+  requirement: string | null
+  responsibility: string | null
 }
 
 export type HhVacancy = {
@@ -27,10 +32,12 @@ export type HhVacancy = {
   name: string
   salary: HhSalary | null
   experience: HhExperience | null
-  schedule: HhShedule | null
+  schedule: HhSchedule | null
   employer: HhEmployer | null
   area: HhArea | null
   alternate_url: string
+  snippet?: HhSnippet | null
+  url?: string
 }
 
 export type HhVacancyResponse = {
@@ -39,4 +46,10 @@ export type HhVacancyResponse = {
   pages: number
   found: number
   per_page: number
+}
+
+export type HhVacancyDetail = HhVacancy & {
+  description?: string | null
+  snippet?: HhSnippet | null
+  url?: string
 }

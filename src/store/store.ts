@@ -8,7 +8,7 @@ export const createAppStore = () =>
       filters: filtersReducer,
       vacancies: vacanciesReducer,
     },
-  });
+  })
 
   export const store = createAppStore()
 

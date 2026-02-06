@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Group, Pill, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Box, Group, Pill, Text, TextInput } from '@mantine/core'
 
 type SkillsFilterProps = {
   skills: string[]
@@ -24,17 +24,17 @@ export function SkillsFilter({
         <TextInput
           placeholder="Навык"
           value={newSkill}
-          onChange={(e) => onNewSkillChange(e.currentTarget.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault()
+          onChange={(event) => onNewSkillChange(event.currentTarget.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault()
               onAddSkill()
             }
           }}
         />
         <ActionIcon
           variant="filled"
-          radius='md'
+          radius="md"
           onClick={onAddSkill}
           aria-label="Добавить навык"
         >
@@ -47,7 +47,7 @@ export function SkillsFilter({
             key={skill}
             withRemoveButton
             onRemove={() => onRemoveSkill(skill)}
-            removeButtonProps={{ 'aria-label': `Удалить ${skill}`}}
+            removeButtonProps={{ 'aria-label': `Удалить ${skill}` }}
           >
             {skill}
           </Pill>

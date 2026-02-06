@@ -8,22 +8,22 @@ type HeroSearchProps = {
 
 export function HeroSearch({ value, onChange, onSubmit }: HeroSearchProps) {
   return (
-    <Box className='hero'>
-      <Container size='lg' py={24}>
-        <Group justify='space-beetween' align='flex-end' wrap='wrap'>
+    <Box className="hero">
+      <Container size="lg" py={24}>
+        <Group justify="space-between" align="flex-end" wrap="wrap">
           <Box>
             <Title order={2}>Список вакансий</Title>
-            <Text c='dimmed'>по профессии Frontend-разработчик</Text>
+            <Text c="dimmed">по профессии Frontend-разработчик</Text>
           </Box>
-          <Group className='search-group' wrap='wrap'>
-            <TextInput 
+          <Group className="search-group" wrap="wrap">
+            <TextInput
               className="search-input"
-              placeholder='Должность или название компании'
+              placeholder="Должность или название компании"
               value={value}
-              onChange={(e) => onChange(e.currentTarget.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault()
+              onChange={(event) => onChange(event.currentTarget.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault()
                   onSubmit()
                 }
               }}

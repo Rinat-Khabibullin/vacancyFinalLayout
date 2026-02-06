@@ -2,7 +2,7 @@
 ## Проверяемое задание: «URL-параметры и search-параметры»
 
 - **Деплой:**  
-  https://rinat-khabibullin.github.io/jobVacancyWebsite/vacancies?skills=TypeScript%2CReact%2CRedux
+  https://rinat-khabibullin.github.io/jobVacancyWebsite/
 
 - **Репозиторий:**  
   https://github.com/Rinat-Khabibullin/jobVacancyWebsite

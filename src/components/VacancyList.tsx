@@ -1,8 +1,8 @@
-import { Group, Pagination, Stack, Tabs, Text } from '@mantine/core'
+import { Group, Loader, Pagination, Stack, Tabs, Text } from '@mantine/core'
 import type { HhVacancy } from '../types/hh'
 import { VacancyCard } from './VacancyCard'
 
-type CityTabValue = 'moscow' | 'petersburg'
+type CityTabValue = 'moscow' | 'petersburg' | null
 
 type VacancyListProps = {
   items: HhVacancy[]
@@ -29,12 +29,10 @@ export function VacancyList({
     <div className="list">
       <Tabs
         value={activeCity}
-        onChange={(value) => {
-          if (!value) return
-          onCityChange(value as CityTabValue)
-        }}
+        onChange={(value) => onCityChange((value ?? null) as CityTabValue)}
         className="city-tabs"
         variant="unstyled"
+        allowTabDeactivation
       >
         <Tabs.List className="city-tabs-list">
           <Tabs.Tab value="moscow" className="city-tab">
@@ -46,7 +44,11 @@ export function VacancyList({
         </Tabs.List>
       </Tabs>
 
-      {loading && <Text>Загрузка...</Text>}
+      {loading && (
+        <Group justify="center" mt={16}>
+          <Loader color="indigo" />
+        </Group>
+      )}
       {error && (
         <Text c="red" role="alert">
           {error}

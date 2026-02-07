@@ -4,14 +4,14 @@ import { VacanciesPage } from './pages/VacanciesPage'
 import { VacancyDetailPage } from './pages/VacancyDetailPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 
+function VacanciesLayout() {
+  return <Outlet />
+}
+
 function VacanciesRedirect() {
   const location = useLocation()
 
   return <Navigate to={{ pathname: '/vacancies/moscow', search: location.search }} replace />
-}
-
-function VacanciesLayout() {
-  return <Outlet />
 }
 
 function App() {
@@ -20,6 +20,7 @@ function App() {
       <Route path="/" element={<Navigate to="/vacancies/moscow" replace />} />
       <Route path="/vacancies" element={<VacanciesLayout />}>
         <Route index element={<VacanciesRedirect />} />
+        <Route path="all" element={<VacanciesPage />} />
         <Route path="moscow" element={<VacanciesPage city="moscow" />} />
         <Route path="petersburg" element={<VacanciesPage city="petersburg" />} />
         <Route path=":id" element={<VacancyDetailPage />} />

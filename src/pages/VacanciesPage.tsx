@@ -24,7 +24,7 @@ const parseSkills = (value: string | null) =>
 type CityTab = keyof typeof CITY_TABS
 
 type VacanciesPageProps = {
-  city: CityTab
+  city?: CityTab
 }
 
 export function VacanciesPage({ city }: VacanciesPageProps) {
@@ -37,7 +37,7 @@ export function VacanciesPage({ city }: VacanciesPageProps) {
   const searchParamsString = searchParams.toString()
   const navigate = useNavigate()
   const location = useLocation()
-  const routeArea = CITY_TABS[city]
+  const routeArea = city ? CITY_TABS[city] : 'Все'
 
   useEffect(() => {
     if (area !== routeArea) {
@@ -101,8 +101,9 @@ export function VacanciesPage({ city }: VacanciesPageProps) {
     dispatch(setSearchText(searchDraft))
   }
 
-  const handleCityChange = (value: CityTab) => {
-    navigate({ pathname: `/vacancies/${value}`, search: location.search })
+  const handleCityChange = (value: CityTab | null) => {
+    const nextPath = value ? `/vacancies/${value}` : '/vacancies/all'
+    navigate({ pathname: nextPath, search: location.search })
   }
 
   return (
@@ -125,7 +126,7 @@ export function VacanciesPage({ city }: VacanciesPageProps) {
             items={items}
             loading={loading}
             error={error}
-            activeCity={city}
+            activeCity={city ?? null}
             page={page}
             totalPages={totalPages}
             onCityChange={handleCityChange}

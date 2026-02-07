@@ -205,4 +205,8 @@
   .filters {
     width: 100%;
   }
+
+  .city-tabs-list {
+    padding-left: 4px;
+  }
 }

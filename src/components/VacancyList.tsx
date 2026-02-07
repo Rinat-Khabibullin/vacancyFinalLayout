@@ -1,18 +1,17 @@
-import { Group, Pagination, SegmentedControl, Stack, Text } from '@mantine/core'
-import type { AreaOption } from '../store/filtersSlice'
+import { Group, Pagination, Stack, Tabs, Text } from '@mantine/core'
 import type { HhVacancy } from '../types/hh'
 import { VacancyCard } from './VacancyCard'
 
-const CITY_OPTIONS: AreaOption[] = ['Все', 'Москва', 'Санкт-Петербург']
+type CityTabValue = 'moscow' | 'petersburg'
 
 type VacancyListProps = {
   items: HhVacancy[]
   loading: boolean
   error: string | null
-  area: AreaOption
+  activeCity: CityTabValue
   page: number
   totalPages: number
-  onAreaChange: (value: AreaOption) => void
+  onCityChange: (value: CityTabValue) => void
   onPageChange: (value: number) => void
 }
 
@@ -20,21 +19,32 @@ export function VacancyList({
   items,
   loading,
   error,
-  area,
+  activeCity,
   page,
   totalPages,
-  onAreaChange,
+  onCityChange,
   onPageChange,
 }: VacancyListProps) {
   return (
     <div className="list">
-      <Group justify="space-between" align="center" mb={16} wrap="wrap">
-        <SegmentedControl
-          data={CITY_OPTIONS}
-          value={area}
-          onChange={(value) => onAreaChange(value as AreaOption)}
-        />
-      </Group>
+      <Tabs
+        value={activeCity}
+        onChange={(value) => {
+          if (!value) return
+          onCityChange(value as CityTabValue)
+        }}
+        className="city-tabs"
+        variant="unstyled"
+      >
+        <Tabs.List className="city-tabs-list">
+          <Tabs.Tab value="moscow" className="city-tab">
+            Москва
+          </Tabs.Tab>
+          <Tabs.Tab value="petersburg" className="city-tab">
+            Санкт-Петербург
+          </Tabs.Tab>
+        </Tabs.List>
+      </Tabs>
 
       {loading && <Text>Загрузка...</Text>}
       {error && (

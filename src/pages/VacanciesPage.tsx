@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Container, Group } from '@mantine/core'
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { addSkill, removeSkill, setArea, setFilters, setPage, setSearchText } from '../store/filtersSlice'
 import { fetchVacancies } from '../store/vacanciesSlice'
@@ -8,12 +8,10 @@ import { AppHeader } from '../components/AppHeader'
 import { HeroSearch } from '../components/HeroSearch'
 import { SkillsFilter } from '../components/SkillsFilter'
 import { VacancyList } from '../components/VacancyList'
-import type { AreaOption } from '../store/filtersSlice'
-
-const AREA_OPTIONS: AreaOption[] = ['Все', 'Москва', 'Санкт-Петербург']
-
-const isValidArea = (value: string | null): value is AreaOption =>
-  !!value && AREA_OPTIONS.includes(value as AreaOption)
+const CITY_TABS = {
+  moscow: 'Москва',
+  petersburg: 'Санкт-Петербург',
+} as const
 
 const parseSkills = (value: string | null) =>
   value
@@ -23,8 +21,13 @@ const parseSkills = (value: string | null) =>
         .filter(Boolean)
     : null
 
+type CityTab = keyof typeof CITY_TABS
 
-export function VacanciesPage() {
+type VacanciesPageProps = {
+  city: CityTab
+}
+
+export function VacanciesPage({ city }: VacanciesPageProps) {
   const dispatch = useAppDispatch()
   const { searchText, area, skills, page } = useAppSelector((state) => state.filters)
   const { items, pages, loading, error } = useAppSelector((state) => state.vacancies)
@@ -32,10 +35,23 @@ export function VacanciesPage() {
   const [searchDraft, setSearchDraft] = useState(searchText)
   const [searchParams, setSearchParams] = useSearchParams()
   const searchParamsString = searchParams.toString()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const routeArea = CITY_TABS[city]
 
   useEffect(() => {
+    if (area !== routeArea) {
+      dispatch(setArea(routeArea))
+    }
+  }, [area, dispatch, routeArea])
+
+  useEffect(() => {
+    if (area !== routeArea) {
+      return
+    }
+
     dispatch(fetchVacancies())
-  }, [dispatch, searchText, area, skills, page])
+  }, [dispatch, searchText, area, skills, page, routeArea])
 
   useEffect(() => {
     if (!searchParamsString) {
@@ -44,18 +60,16 @@ export function VacanciesPage() {
 
     const params = new URLSearchParams(searchParamsString)
     const nextSearchText = params.get('text') ?? ''
-    const areaParam = params.get('area')
-    const nextArea = isValidArea(areaParam) ? areaParam : 'Все'
     const nextSkills = parseSkills(params.get('skills')) ?? []
 
     dispatch(
       setFilters({
         searchText: nextSearchText,
-        area: nextArea as AreaOption,
+        area: routeArea,
         skills: nextSkills,
       }),
     )
-  }, [dispatch, searchParamsString])
+  }, [dispatch, routeArea, searchParamsString])
 
   useEffect(() => {
     const params = new URLSearchParams()
@@ -64,16 +78,12 @@ export function VacanciesPage() {
       params.set('text', searchText.trim())
     }
 
-    if (area !== 'Все') {
-      params.set('area', area)
-    }
-
     if (skills.length > 0) {
       params.set('skills', skills.join(','))
     }
 
     setSearchParams(params, { replace: true })
-  }, [area, searchText, skills, setSearchParams])
+  }, [searchText, skills, setSearchParams])
 
   useEffect(() => {
     setSearchDraft(searchText)
@@ -89,6 +99,10 @@ export function VacanciesPage() {
 
   const handleSearch = () => {
     dispatch(setSearchText(searchDraft))
+  }
+
+  const handleCityChange = (value: CityTab) => {
+    navigate({ pathname: `/vacancies/${value}`, search: location.search })
   }
 
   return (
@@ -111,10 +125,10 @@ export function VacanciesPage() {
             items={items}
             loading={loading}
             error={error}
-            area={area}
+            activeCity={city}
             page={page}
             totalPages={totalPages}
-            onAreaChange={(value) => dispatch(setArea(value))}
+            onCityChange={handleCityChange}
             onPageChange={(value) => dispatch(setPage(value))}
           />
         </Group>

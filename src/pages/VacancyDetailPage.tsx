@@ -10,7 +10,6 @@ import {
   TypographyStylesProvider,
 } from '@mantine/core'
 import { useParams } from 'react-router-dom'
-import { AppHeader } from '../components/AppHeader'
 import type { HhVacancyDetail } from '../types/hh'
 import { formatSalary, getWorkFormat } from '../utils/formatters'
 import { buildHhUrl } from '../api/hh'
@@ -93,8 +92,6 @@ export function VacancyDetailPage() {
 
   return (
     <Box>
-      <AppHeader />
-
       <Container size="md" className="detail-content">
         {loading && <Text>Загрузка...</Text>}
         {error && (

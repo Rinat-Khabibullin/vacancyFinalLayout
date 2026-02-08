@@ -4,7 +4,6 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { addSkill, removeSkill, setArea, setFilters, setPage, setSearchText } from '../store/filtersSlice'
 import { fetchVacancies } from '../store/vacanciesSlice'
-import { AppHeader } from '../components/AppHeader'
 import { HeroSearch } from '../components/HeroSearch'
 import { SkillsFilter } from '../components/SkillsFilter'
 import { VacancyList } from '../components/VacancyList'
@@ -102,14 +101,12 @@ export function VacanciesPage({ city }: VacanciesPageProps) {
   }
 
   const handleCityChange = (value: CityTab | null) => {
-    const nextPath = value ? `/vacancies/${value}` : '/vacancies/all'
+    const nextPath = value ? `/vacancies/${value}` : '/vacancies'
     navigate({ pathname: nextPath, search: location.search })
   }
 
   return (
     <div>
-      <AppHeader />
-
       <HeroSearch value={searchDraft} onChange={setSearchDraft} onSubmit={handleSearch} />
 
       <Container size="lg" className="content">

@@ -11,10 +11,12 @@ export function AppHeader() {
     <Box component="header" className="app-header">
       <Container size="lg" py={16}>
         <div className="app-header-inner">
-          <Group gap={12}>
-            <Box className="app-logo">hh</Box>
-            <Text fw={700}>.FrontEnd</Text>
-          </Group>
+          <Link to="/" className="app-brand-link" aria-label="Перейти на главную">
+            <Group gap={12}>
+              <Box className="app-logo">hh</Box>
+              <Text fw={700}>.FrontEnd</Text>
+            </Group>
+          </Link>
           <Group gap={32} className="app-nav">
             <Link
               to="/vacancies"

@@ -10,7 +10,6 @@ import {
   TypographyStylesProvider,
 } from '@mantine/core'
 import { useParams } from 'react-router-dom'
-import type { HhVacancyDetail } from '../types/hh'
 import { formatSalary, getWorkFormat } from '../utils/formatters'
 import { buildHhUrl } from '../api/hh'
 

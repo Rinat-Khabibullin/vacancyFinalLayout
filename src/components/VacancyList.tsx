@@ -1,5 +1,4 @@
 import { Group, Loader, Pagination, Stack, Tabs, Text } from '@mantine/core'
-import type { HhVacancy } from '../types/hh'
 import { VacancyCard } from './VacancyCard'
 
 type CityTabValue = 'moscow' | 'petersburg' | null

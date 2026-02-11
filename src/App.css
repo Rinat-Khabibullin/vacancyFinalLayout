@@ -78,6 +78,11 @@
   width: 32px;
 }
 
+.app-brand-link {
+  display: inline-flex;
+  align-items: center;
+}
+
 .app-logo {
   display: inline-flex;
   align-items: center;

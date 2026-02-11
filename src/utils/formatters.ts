@@ -1,10 +1,8 @@
-import type { HhVacancy } from "../types/hh";
+const numberFormatter = new Intl.NumberFormat('ru-RU')
 
-const numberFormatter = new Intl.NumberFormat("ru-RU");
-
-export const formatSalary = (salary: HhVacancy["salary"]) => {
+export const formatSalary = (salary: HhVacancy['salary']) => {
   if (!salary || (salary.from == null && salary.to == null))
-    return "з/п не указана";
+    return 'з/п не указана'
 
   const currency = salary.currency ?? ''
   if (salary.from != null && salary.to != null) {

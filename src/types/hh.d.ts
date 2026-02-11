@@ -1,33 +1,33 @@
-export type HhArea = {
+type HhArea = {
   id: string
   name: string
 }
 
-export type HhEmployer = {
+type HhEmployer = {
   name: string
 }
 
-export type HhSalary = {
+type HhSalary = {
   from: number | null
   to: number | null
   currency: string | null
   gross: boolean | null
 }
 
-export type HhExperience = {
+type HhExperience = {
   name: string
 }
 
-export type HhSchedule = {
+type HhSchedule = {
   name: string
 }
 
-export type HhSnippet = {
+type HhSnippet = {
   requirement: string | null
   responsibility: string | null
 }
 
-export type HhVacancy = {
+type HhVacancy = {
   id: string
   name: string
   salary: HhSalary | null
@@ -40,7 +40,7 @@ export type HhVacancy = {
   url?: string
 }
 
-export type HhVacancyResponse = {
+type HhVacancyResponse = {
   items: HhVacancy[]
   page: number
   pages: number
@@ -48,7 +48,7 @@ export type HhVacancyResponse = {
   per_page: number
 }
 
-export type HhVacancyDetail = HhVacancy & {
+type HhVacancyDetail = HhVacancy & {
   description?: string | null
   snippet?: HhSnippet | null
   url?: string

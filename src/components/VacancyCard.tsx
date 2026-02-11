@@ -1,6 +1,5 @@
 import { Badge, Box, Button, Group, Text } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
-import type { HhVacancy } from '../types/hh'
 import { formatSalary, getWorkFormat } from '../utils/formatters'
 
 type VacancyCardProps = {

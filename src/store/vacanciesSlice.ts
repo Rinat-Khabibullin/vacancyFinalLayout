@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { HhVacancy, HhVacancyResponse } from '../types/hh'
 import type { RootState } from './store'
 import { buildHhUrl } from '../api/hh'
 
